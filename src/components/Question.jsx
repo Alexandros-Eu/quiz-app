@@ -1,6 +1,4 @@
-import ProgressBar from './ProgressBar.jsx';
-
-export default function Question({questionText, timer})
+export default function Question({questionText})
 {
     return (
         <h2>{questionText}</h2>
