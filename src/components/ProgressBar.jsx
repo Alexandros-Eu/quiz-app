@@ -4,6 +4,10 @@ export default function ProgressBar({timer})
 {
     const [timeRemaining, setTimeRemaining] = useState(timer);
 
+    useEffect(() => {
+        setTimeRemaining(timer);
+    }, [timer]);
+
     const passageOfTime = useCallback(function passageOfTime()
     {
         setTimeRemaining(prevTime => timeRemaining <= 0 ? 0 : prevTime - 100);
@@ -25,6 +29,6 @@ export default function ProgressBar({timer})
     }, [passageOfTime, timeRemaining])
 
     return (
-        <progress value={timeRemaining} max={timer}/>
+        <progress className={timer === 2000 ? "answered" : null} value={timeRemaining} max={timer}/>
     )
 }
