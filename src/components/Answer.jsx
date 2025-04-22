@@ -1,38 +1,40 @@
-import { useState } from 'react';
-
-export default function Answer({answer, onAnswerClick, isSelected, correct, isDisabled, potentialAnswerNo})
+export default function Answer({answer, onAnswerClick, isSelected, isCorrect, isDisabled, potentialAnswerNo})
 {
-    const [btnStyle, setBtnStyle] = useState("");
-
     function handleAnswerSelect(answer)
     {
-        setBtnStyle("selected");
         onAnswerClick(answer, true, potentialAnswerNo);
-
     }
 
-    let style = ""
+    let style;
 
-
-    // if(selected)
-    // {
-    //     buttonStyle = "selected"
-    // }
-
-    if(correct === true)
+    if(isSelected && isCorrect === undefined)
     {
-        buttonStyle = "correct";
+        style = "selected";
     }
-    else if(correct === false)
+    else if(!isSelected && isCorrect === undefined)
     {
-        buttonStyle = "wrong";
+        style = "";
     }
-    
-
+    else if(isCorrect)
+    {
+        style = "correct";
+    }
+    else if(isCorrect === false)
+    {
+        style = "wrong"
+    }
+    else if(isCorrect === undefined)
+    {
+        style = "";
+    }
+    else
+    {
+        style = "";
+    }
 
     return (
         <div className="answer">
-            <button className={isSelected ? "selected" : null} onClick={() => handleAnswerSelect(answer)} disabled={isDisabled}>{answer}</button>
+            <button className={style} onClick={() => handleAnswerSelect(answer)} disabled={isDisabled}>{answer}</button>
         </div>
     )
 }

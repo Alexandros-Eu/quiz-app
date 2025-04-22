@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Header from './components/Header.jsx';
 import ProgressBar from './components/ProgressBar.jsx';
@@ -8,7 +8,7 @@ import { questions, potentialAnswers, answers as correctAnswers } from './QuizDa
 
 const QUIZ_TIMER = 10000;
 const PICKED_TIMER = 2000;
-const ANSWERED_TIMER = 3000;
+const RESULT_TIMER = 3000;
 
 function App()
 {
@@ -20,6 +20,7 @@ function App()
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
     const [userAnswer, setUserAnswer] = useState("");
     const [showChoice, setShowChoice] = useState(false);
+    const [showResult, setShowResult] = useState(false);
 
     function handleAnswerSelect(answer, disabled, answerNumber)
     {
@@ -46,7 +47,8 @@ function App()
 
     useEffect(() => {
         let timer;
-        if (isAnAnswerSelected && !showChoice) {
+        if(isAnAnswerSelected && !showChoice) 
+        {
             timer = setTimeout(() => {
                 setShowChoice(true);
             }, PICKED_TIMER);
@@ -54,6 +56,17 @@ function App()
         
         return () => clearTimeout(timer);
     }, [isAnAnswerSelected]);
+
+    useEffect(() => {
+        let timer;
+        if(showChoice)
+        {
+            timer = setTimeout(() => {
+                setShowResult(true);
+            }, RESULT_TIMER)
+        }
+
+    })
     
 
     let appTimer = QUIZ_TIMER;
@@ -61,6 +74,11 @@ function App()
     if(isAnAnswerSelected)
     {
         appTimer = PICKED_TIMER;
+    }
+
+    if(showChoice)
+    {
+        appTimer = RESULT_TIMER;
     }
 
 
