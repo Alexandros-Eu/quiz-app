@@ -7,6 +7,8 @@ import Answer from './components/Answer.jsx';
 import { questions, potentialAnswers, answers as correctAnswers } from './QuizData.js';
 
 const QUIZ_TIMER = 10000;
+const PICKED_TIMER = 2000;
+const ANSWERED_TIMER = 3000;
 
 function App()
 {
@@ -14,15 +16,19 @@ function App()
     const [pickedAnswerFlag, setPickedAnswerFlag] = useState(undefined);
     const [question, setQuestion] = useState(questions[questionFlag]);
     const [answers, setAnswers] = useState(potentialAnswers[questionFlag]);
-    const [isCorrect, setIsCorrect] = useState(undefined);
     const [isAnAnswerSelected, setIsAnAnswerSelected] = useState(undefined);
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
+    const [userAnswer, setUserAnswer] = useState("");
+    const [showChoice, setShowChoice] = useState(false);
 
     function handleAnswerSelect(answer, disabled, answerNumber)
     {
         setPickedAnswerFlag(answerNumber);
         setButtonsDisabled(disabled);
         setIsAnAnswerSelected(true);
+
+        setUserAnswer(answer);
+
 
         // console.log(questions.length);
 
@@ -38,28 +44,48 @@ function App()
 
     }
 
-    let timer = QUIZ_TIMER;
+    useEffect(() => {
+        let timer;
+        if (isAnAnswerSelected && !showChoice) {
+            timer = setTimeout(() => {
+                setShowChoice(true);
+            }, PICKED_TIMER);
+        }
+        
+        return () => clearTimeout(timer);
+    }, [isAnAnswerSelected]);
+    
+
+    let appTimer = QUIZ_TIMER;
 
     if(isAnAnswerSelected)
     {
-        timer = 2000;
+        appTimer = PICKED_TIMER;
     }
+
 
     return (
         <>
             <Header/>
             <div id="quiz">
                 <div id="question">
-                    <ProgressBar timer={timer}/>
+                    <ProgressBar timer={appTimer}/>
                     <Question questionText={question} />
                 </div>
 
 
                 <div id="answers">
                     {answers.map((potentialAnswer, i) => {
+
                         let disabled = buttonsDisabled && pickedAnswerFlag !== i;
                         let isSelected = pickedAnswerFlag === i;
-                        return <Answer key={uuidv4()} answer={potentialAnswer} onAnswerClick={handleAnswerSelect} isSelected={isSelected} correct={isCorrect} isDisabled={disabled} potentialAnswerNo={i}/>
+                        let isCorrect = undefined;
+
+                        if (isSelected && showChoice) {
+                            isCorrect = userAnswer === correctAnswers[questionFlag];
+                        }
+
+                        return <Answer key={uuidv4()} answer={potentialAnswer} onAnswerClick={handleAnswerSelect} isSelected={isSelected} isCorrect={isCorrect} isDisabled={disabled} potentialAnswerNo={i}/>
                     })}
                 </div>
             </div>
