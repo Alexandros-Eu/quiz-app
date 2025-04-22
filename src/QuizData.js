@@ -6,7 +6,7 @@ export const questions = [
 
 export const answers = [
     "India", 
-    "United States of America", 
+    "USA", 
     "Ochlocracy"
 ]
 

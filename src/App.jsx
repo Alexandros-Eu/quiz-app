@@ -30,19 +30,30 @@ function App()
 
         setUserAnswer(answer);
 
+    }
 
-        // console.log(questions.length);
+    function nextQuestion()
+    {
+        if(questionFlag < questions.length - 1)
+        {
+            setQuestionFlag(prevFlag => prevFlag + 1);
+            setQuestion(questions[questionFlag + 1]);
+            setAnswers(potentialAnswers[questionFlag + 1]);
 
-        // if(questionFlag < questions.length)
-        // {
-        //     setQuestionFlag(prevFlag => prevFlag + 1);
-        //     setQuestion(questions[questionFlag + 1]);
-        //     setAnswers(potentialAnswers[questionFlag + 1]);
-        // }
+            setPickedAnswerFlag(undefined);
+            setButtonsDisabled(false);
+            setIsAnAnswerSelected(undefined);
+            setShowChoice(false);
+            setShowResult(false);
+            
+            setUserAnswer("");
 
-        // setIsSelected(true);
-        // answer === correctAnswers[questionFlag] ? setIsCorrect(true) : setIsCorrect(false);
-
+            appTimer = QUIZ_TIMER;
+        }
+        else 
+        {
+            alert("Quiz has ended!");
+        }
     }
 
     useEffect(() => {
@@ -66,7 +77,21 @@ function App()
             }, RESULT_TIMER)
         }
 
-    })
+        return () => clearTimeout(timer);
+
+    }, [showChoice])
+
+    useEffect(() => {
+        let timer;
+        if(showResult)
+        {
+            timer = setTimeout(() => {
+                nextQuestion();
+            }, 0)
+        }
+
+        return () => clearTimeout(timer);
+    }, [showResult])
     
 
     let appTimer = QUIZ_TIMER;
