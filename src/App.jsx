@@ -29,6 +29,14 @@ function App()
         setIsAnAnswerSelected(true);
 
         setUserAnswer(answer);
+        saveAnswer(answer);
+
+    }
+
+    function saveAnswer(answer)
+    {
+        let allUserAnswers = JSON.parse(localStorage.getItem("userAnswers")) || [];
+        localStorage.setItem("userAnswers", JSON.stringify([...allUserAnswers, answer]));
 
     }
 
