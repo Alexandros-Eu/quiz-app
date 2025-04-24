@@ -4,6 +4,7 @@ import Header from './components/Header.jsx';
 import ProgressBar from './components/ProgressBar.jsx';
 import Question from './components/Question.jsx';
 import Answer from './components/Answer.jsx';
+import Summary from './components/Summary.jsx';
 import { questions, potentialAnswers, answers as correctAnswers } from './QuizData.js';
 
 const QUIZ_TIMER = 10000;
@@ -114,35 +115,52 @@ function App()
         appTimer = RESULT_TIMER;
     }
 
+    let isQuizOver;
+
+    useEffect(() => {
+        if(questionFlag < questions.length - 1)
+        {
+            isQuizOver = false;
+        }
+        else
+        {
+            isQuizOver = true;
+        }
+    }, [showResult])
+
 
     return (
-        <>
-            <Header/>
-            <div id="quiz">
-                <div id="question">
-                    <ProgressBar timer={appTimer}/>
-                    <Question questionText={question} />
-                </div>
+        isQuizOver ? (
+            <>
+                <Summary/>
+            </>
+        ) : (
+            <>
+                <Header/>
+                <div id="quiz">
+                    <div id="question">
+                        <ProgressBar timer={appTimer}/>
+                        <Question questionText={question} />
+                    </div>
 
 
-                <div id="answers">
-                    {answers.map((potentialAnswer, i) => {
+                    <div id="answers">
+                        {answers.map((potentialAnswer, i) => {
 
-                        let disabled = buttonsDisabled && pickedAnswerFlag !== i;
-                        let isSelected = pickedAnswerFlag === i;
-                        let isCorrect = undefined;
+                            let disabled = buttonsDisabled && pickedAnswerFlag !== i;
+                            let isSelected = pickedAnswerFlag === i;
+                            let isCorrect = undefined;
 
-                        if (isSelected && showChoice) {
-                            isCorrect = userAnswer === correctAnswers[questionFlag];
-                        }
+                            if (isSelected && showChoice) {
+                                isCorrect = userAnswer === correctAnswers[questionFlag];
+                            }
 
-                        return <Answer key={uuidv4()} answer={potentialAnswer} onAnswerClick={handleAnswerSelect} isSelected={isSelected} isCorrect={isCorrect} isDisabled={disabled} potentialAnswerNo={i}/>
-                    })}
-                </div>
-            </div>
-
-            
-        </>
+                            return <Answer key={uuidv4()} answer={potentialAnswer} onAnswerClick={handleAnswerSelect} isSelected={isSelected} isCorrect={isCorrect} isDisabled={disabled} potentialAnswerNo={i}/>
+                        })}
+                    </div>
+                </div>            
+            </>
+        )
     )
 }
 
