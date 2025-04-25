@@ -22,6 +22,7 @@ function App()
     const [userAnswer, setUserAnswer] = useState("");
     const [showChoice, setShowChoice] = useState(false);
     const [showResult, setShowResult] = useState(false);
+    const [isQuizOver, setIsQuizOver] = useState(false);
 
     function handleAnswerSelect(answer, disabled, answerNumber)
     {
@@ -61,7 +62,7 @@ function App()
         }
         else 
         {
-            alert("Quiz has ended!");
+            setIsQuizOver(true);
         }
     }
 
@@ -114,20 +115,6 @@ function App()
     {
         appTimer = RESULT_TIMER;
     }
-
-    let isQuizOver;
-
-    useEffect(() => {
-        if(questionFlag < questions.length - 1)
-        {
-            isQuizOver = false;
-        }
-        else
-        {
-            isQuizOver = true;
-        }
-    }, [showResult])
-
 
     return (
         isQuizOver ? (
