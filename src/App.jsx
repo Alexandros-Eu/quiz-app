@@ -35,8 +35,19 @@ function App()
 
     }
 
-    function saveAnswer(answer)
+    function handleSkipSelect()
     {
+        saveAnswer();
+        nextQuestion();
+    }
+
+    function saveAnswer(answer = undefined)
+    {
+        if(questionFlag === 0)
+        {
+            localStorage.clear();
+        }
+
         let allUserAnswers = JSON.parse(localStorage.getItem("userAnswers")) || [];
         localStorage.setItem("userAnswers", JSON.stringify([...allUserAnswers, answer]));
 
@@ -144,6 +155,12 @@ function App()
 
                             return <Answer key={uuidv4()} answer={potentialAnswer} onAnswerClick={handleAnswerSelect} isSelected={isSelected} isCorrect={isCorrect} isDisabled={disabled} potentialAnswerNo={i}/>
                         })}
+
+                        {!isAnAnswerSelected && !showChoice && !showResult && (
+                            <div id="skip-action">
+                                <button onClick={handleSkipSelect}>Skip</button>
+                            </div>
+                        )}
                     </div>
                 </div>            
             </>
