@@ -41,7 +41,7 @@ function App()
         nextQuestion();
     }
 
-    function saveAnswer(answer = undefined)
+    function saveAnswer(answer = null)
     {
         if(questionFlag === 0)
         {
@@ -137,7 +137,7 @@ function App()
                 <Header/>
                 <div id="quiz">
                     <div id="question">
-                        <ProgressBar timer={appTimer}/>
+                        <ProgressBar timer={appTimer} timeUp={handleSkipSelect}/>
                         <Question questionText={question} />
                     </div>
 

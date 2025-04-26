@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 
-export default function ProgressBar({timer})
+export default function ProgressBar({timer, timeUp})
 {
     const [timeRemaining, setTimeRemaining] = useState(timer);
 
@@ -16,6 +16,8 @@ export default function ProgressBar({timer})
     useEffect(() => {
         if(timeRemaining <= 0)
         {
+            setTimeRemaining(timer);
+            timeUp();
             return;
         }
 

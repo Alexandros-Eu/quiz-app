@@ -64,7 +64,7 @@ export default function Summary()
                 let isCorrect = answers[i] === userAnswers[i];
 
                 return (
-                    <ol>
+                    <ol key={i + 1}>
                         <h3>{i + 1}</h3>
                         <li className="question">{question}</li>
                         <li className={`user-answer ${isCorrect ? "correct" : "wrong"}`}>{userAnswers[i]}</li>
