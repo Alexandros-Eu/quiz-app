@@ -5,7 +5,9 @@ let correctPerc =  undefined;
 let incorrectPerc =  undefined;
 let skippedPerc =  undefined;
 
-function getAnswers()
+export default function Summary()
+{
+    function getAnswers()
 {
     return JSON.parse(localStorage.getItem("userAnswers"));
 }
@@ -36,11 +38,9 @@ function calculatePerc()
     skippedPerc = Math.floor(skipped / questions.length * 100);
 }
 
-const userAnswers = getAnswers();
-calculatePerc();
+    const userAnswers = getAnswers();
+    calculatePerc();
 
-export default function Summary()
-{
     return (
         <div id="summary">
             <img src={logo} alt="Completion Logo" />
