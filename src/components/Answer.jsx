@@ -5,36 +5,18 @@ export default function Answer({answer, onAnswerClick, isSelected, isCorrect, is
         onAnswerClick(answer, true, potentialAnswerNo);
     }
 
-    let style;
+    function getStyle(selected, correct)
+    {
+        if(selected && correct === undefined) return 'selected';
+        if(isCorrect === true) return 'correct';
+        if(isCorrect === false) return 'wrong';
 
-    if(isSelected && isCorrect === undefined)
-    {
-        style = "selected";
-    }
-    else if(!isSelected && isCorrect === undefined)
-    {
-        style = "";
-    }
-    else if(isCorrect)
-    {
-        style = "correct";
-    }
-    else if(isCorrect === false)
-    {
-        style = "wrong"
-    }
-    else if(isCorrect === undefined)
-    {
-        style = "";
-    }
-    else
-    {
-        style = "";
+        return '';
     }
 
     return (
         <div className="answer">
-            <button className={style} onClick={() => handleAnswerSelect(answer)} disabled={isDisabled}>{answer}</button>
+            <button className={getStyle(isSelected, isCorrect)} onClick={() => handleAnswerSelect(answer)} disabled={isDisabled}>{answer}</button>
         </div>
     )
 }
