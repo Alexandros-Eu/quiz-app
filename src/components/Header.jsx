@@ -1,6 +1,7 @@
 import logo from '../assets/quiz-logo.png';
 
-export default function Header()
+// A Header Component stylizing the Quiz App by displaying the quiz logo and title
+export default function Header()    
 {
     return (
         <header>

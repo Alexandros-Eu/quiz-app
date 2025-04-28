@@ -5,14 +5,17 @@ let correctPerc =  undefined;
 let incorrectPerc =  undefined;
 let skippedPerc =  undefined;
 
+// A Summary Component that displays and calculates quizk results and statistics
+// A detailed summary of quiz results including statistics and answers 
 export default function Summary()
 {
-    function getAnswers()
+
+function getAnswers() // Retrives user answers from Local Storage
 {
     return JSON.parse(localStorage.getItem("userAnswers"));
 }
 
-function calculatePerc()
+function calculatePerc() // Calculate percentages for quiz results
 {
     let correctAnswers = 0;
     let incorrectAnswers = 0;
@@ -33,7 +36,8 @@ function calculatePerc()
         }
     })
 
-    correctPerc = Math.floor(correctAnswers / questions.length * 100);
+    // The necessarry calculations for the statistics
+    correctPerc = Math.floor(correctAnswers / questions.length * 100); // Part / Whole * 100
     incorrectPerc = Math.floor(incorrectAnswers / questions.length * 100);
     skippedPerc = Math.floor(skipped / questions.length * 100);
 }
