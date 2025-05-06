@@ -6,9 +6,7 @@ export default function QuizTimer({timeout, onTimeout, mode})
 
     useEffect(() => {
         console.log("SETTING TIMEOUT");
-        const timer = setTimeout(() => {
-            onTimeout
-        }, timeout)
+        const timer = setTimeout(onTimeout, timeout)
 
         return () => clearTimeout(timer);
 
